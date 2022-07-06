@@ -1,0 +1,65 @@
+import java.util.*;
+public class Solution {
+	public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {                                       // Memoization approach very easy just get the recursion 
+		int n = nums.size();
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        return func(n-1, n ,  nums , dp);
+	}
+    public static int func(int ind ,int n, ArrayList<Integer> nums, int[] dp){
+        if(ind == 0) return nums.get(ind);
+        if(ind< 0) return  0;
+        if(dp[ind]!= -1)return dp[ind];
+        int pick = nums.get(ind) + func(ind-2,n , nums, dp);
+        int notPick = 0 + func(ind-1,n,  nums, dp);
+        return dp[ind] = Math.max(pick, notPick);        
+    }
+}
+
+
+import java.util.*;
+class TUF{                                                                                          //Tabulation approach
+static int solveUtil(int n, int[] arr, int[] dp){
+    
+    dp[0]= arr[0];
+    
+    for(int i=1 ;i<n; i++){
+        int pick = arr[i];
+        if(i>1)
+            pick += dp[i-2];
+        int nonPick = 0+ dp[i-1];
+        
+        dp[i]= Math.max(pick, nonPick);
+    }
+    
+    
+    return dp[n-1];
+}
+
+static int solve(int n, int[] arr){
+    int dp[]=new int[n];
+    Arrays.fill(dp,-1);
+    return solveUtil(n, arr, dp);
+}
+
+
+import java.util.*;
+class TUF{
+static int solve(int n, int[] arr){
+                                                                                                      // Space Optimization approach
+   int prev = arr[0];
+    int prev2 =0;
+    
+    for(int i=1; i<n; i++){
+        int pick = arr[i];
+        if(i>1)
+            pick += prev2;
+        int nonPick = 0 + prev;
+        
+        int cur_i = Math.max(pick, nonPick);
+        prev2 = prev;
+        prev= cur_i;
+        
+    }
+    return prev;
+}
