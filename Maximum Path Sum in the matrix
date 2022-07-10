@@ -1,4 +1,4 @@
-public class Solution {
+public class Solution {						// VARIABLE STARTING AND ENDING POINTS
 	static int getMaxPathSum(int[][] matrix){
     
     int n = matrix.length;                                    // Tabulation solution is here
