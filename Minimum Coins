@@ -1,0 +1,27 @@
+public class Solution {
+    public static int minimumElements(int num[], int x) {
+           int n = num.length;
+        int[][] dp = new int[n][x+1];
+        
+        for(int T = 0;T<=x;T++){
+            if(T % num[0] == 0)dp[0][T] = T / num[0];
+        else
+            dp[0][T] = (int)1e9;
+        }
+        
+        for(int i =1; i<n;i++){
+            for(int t = 0; t<=x;t++){                                                                 // Doing same as pick non pick just thora diff as infinite coins given
+                int notTake = dp[i-1][t];
+                int Take= (int)1e9;
+                if(num[i]<=t)
+                    Take = 1+ dp[i][t-num[i]];
+                dp[i][t] = Math.min(Take, notTake);
+            }
+        }
+      int ans =dp[n-1][x];
+       if(ans>=1e9)
+           return -1; 
+        return ans;
+    }
+
+}
