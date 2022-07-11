@@ -1,0 +1,23 @@
+class Solution {
+    public int change(int a, int[] num) {
+           int n = num.length;
+        int[][] dp = new int[n][a+1];
+        
+        for(int T = 0;T<=a;T++){
+            if(T % num[0] == 0)dp[0][T] = 1;                                                        // Base Case
+        }
+        
+        for(int i =1; i<n;i++){
+            for(int t = 0; t<=a;t++){                                                                 // Doing same as pick non pick just thora diff as infinite coins given
+                int notTake = dp[i-1][t];
+                int Take= 0;
+                if(num[i]<=t)
+                    Take = dp[i][t-num[i]];
+                dp[i][t] = Take + notTake;
+            }
+        }
+      int ans =dp[n-1][a];
+        return ans;
+    }
+
+}
