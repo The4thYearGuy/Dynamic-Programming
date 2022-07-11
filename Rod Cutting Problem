@@ -1,0 +1,23 @@
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		int[][] dp = new int[n+1][n+1];
+        for(int[] row : dp)
+            Arrays.fill(row , -1);
+        
+        for(int i =0 ; i<=n; i++)
+            dp[0][i] = i*price[0];                                                        
+        
+        for(int i = 1; i<n; i++){
+            for(int target = 0; target<=n;target++){
+                int notTake = dp[i-1][target];
+                int Take = Integer.MIN_VALUE;
+                int rod = i+1;                                                // Rod taken because 1 base indexing so next variable 
+                if(rod<=target)
+                    Take= price[i] + dp[i][target - rod];                       // Take case and adding price
+                dp[i][target] = Math.max(Take,notTake);
+            }
+        }
+        return dp[n-1][n];
+	}
+}
