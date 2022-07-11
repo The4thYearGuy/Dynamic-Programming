@@ -1,0 +1,22 @@
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int mwt, int[] value, int[] weight) { 
+        int[][] dp = new int[n][mwt+1];                                                                   //mistakes are been made there
+        for(int[] row : dp)
+            Arrays.fill(row,0);
+        for(int i=weight[0]; i<=mwt;i++)
+            dp[0][i] = (int) (i/weight[0]) * value[0];
+        
+        for(int ind = 1; ind<n; ind++){
+            for(int wgt = 0; wgt<=mwt; wgt++)
+            {
+                int notTake= 0+ dp[ind-1][wgt];
+                int Take = Integer.MIN_VALUE;
+                if(weight[ind]<= wgt)
+                    Take = value[ind]+ dp[ind][wgt-weight[ind]];
+                dp[ind][wgt] = Math.max(Take, notTake);
+            }
+        }
+            return dp[n-1][mwt];
+    }
+}
