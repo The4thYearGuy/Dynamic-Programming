@@ -1,0 +1,53 @@
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        int ahead[][] = new int[2][k+1];
+        int curr[][] = new int[2][k+1]; //2- Buy stocks 3- cap of Transactions
+          for(int row[] : ahead)
+              Arrays.fill(row , 0);
+        for(int row[] : curr)
+              Arrays.fill(row , 0);
+        
+        for( int ind = n-1; ind>=0; ind--)  {
+            for(int buy = 0; buy<=1;buy++)  {
+                for(int cap = 1; cap<=k; cap++){
+                    if(buy == 1)                                                                      // Space optimized solution just minor changes to part III
+                             curr[buy][cap] = Math.max(-prices[ind] + ahead[0][cap],0+ ahead[1][cap]) ;
+                    else
+                         curr[buy][cap] = Math.max((prices[ind] + ahead[1][cap-1]), 0 + ahead[0][cap]);
+                }
+            }
+      ahead = curr;
+       
+    }
+        
+    return ahead[1][k];
+    }
+}
+
+
+
+
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;                                                          // Badass solution using two 1D dp and changing index and tranNo. tranNo is 2k+1 because the no of k trans is double for both buy and sell thatswhy
+        int ahead[] = new int[2*k+1];
+        int curr[] = new int[2*k+1]; //2- Buy stocks 3- cap of Transactions
+        for(int i = 0; i<2*k +1; i++)
+            ahead[i] = 0;
+        for(int i = 0; i<2*k +1; i++)
+            curr[i] = 0;
+        
+            for(int ind = n-1; ind>=0; ind--){
+                for(int tranNo = 2*k-1;tranNo>=0; tranNo--){
+                    if(tranNo % 2 == 0)
+                            curr[tranNo] = Math.max(-prices[ind] + ahead[tranNo+1],0+ ahead[tranNo]) ;
+                    else
+                         curr[tranNo] = Math.max((prices[ind] + ahead[tranNo+1]), 0 + ahead[tranNo]);
+                }
+             ahead = curr;
+            }
+        
+    return ahead[0];
+    }
+}
