@@ -36,3 +36,20 @@ class Solution {
         }
         return dp[0][0];
     }
+    
+    
+    class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int n = arr.length;        
+        int dp[] = new int[n];                                      //Most optimized approach - NlogN
+            Arrays.fill(dp , 1);
+        int maxi = 0;
+        for(int ind = 0; ind<n; ind++){
+            for(int prev_ind = 0; prev_ind<ind; prev_ind++){
+                if(arr[prev_ind]<arr[ind])
+                    dp[ind] = Math.max(1+dp[prev_ind], dp[ind]);
+            }
+            maxi = Math.max(maxi, dp[ind]);
+        }
+        return maxi;
+    }
