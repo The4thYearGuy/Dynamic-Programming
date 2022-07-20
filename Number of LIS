@@ -23,9 +23,9 @@ class Solution {
                 maxi = Math.max(maxi , dp[i]);
             }
         int nos = 0 ;
-        for(int i = 0; i<n; i++){
+        for(int i = 0; i<n; i++){                                       //checking if the max count occur more than once 
             if(dp[i] == maxi) nos += cnt[i];
         }
-        return nos;
+        return nos;                                                     // return the total number of maxi's;
     }
 }
