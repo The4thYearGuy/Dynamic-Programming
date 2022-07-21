@@ -25,3 +25,31 @@ import java.util.*;
          return dp[i][j] = mini;
     }
 }
+
+
+import java.util.*;
+ public class Solution {
+    public static int cost(int N, int c, int cuts[]) {
+        int dp[][] = new int[c+2][c+2];
+        for( int row[] : dp)
+            Arrays.fill(row, 0);
+        int newC[] = new int[c+2];                                                                  // Tabulation Approach
+        newC[0] = 0;
+        newC[c+1] = N;
+        for(int i = 0; i<c; i++)
+            newC[i+1] = cuts[i];
+        Arrays.sort(newC);
+        for(int a = c; a>=1; a--){
+            for(int b = 1; b<=c; b++){
+                if(a>b) continue;
+                int mini = (int)Math.pow(10,9);
+                for(int k = a; k<=b; k++){
+                int steps =  newC[b+1] - newC[a-1] + dp[a][k-1] + dp[k+1][b];
+                mini = Math.min(mini , steps);
+             }
+            dp[a][b] = mini;
+        }
+     }
+         return dp[1][c];
+        }
+ }
