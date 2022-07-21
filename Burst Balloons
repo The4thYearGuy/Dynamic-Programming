@@ -1,0 +1,27 @@
+class Solution {
+    public int maxCoins(int[] arr) {
+        int N  = arr.length;
+        int dp[][] = new int[N+1][N+1];
+        for( int row[] : dp)
+            Arrays.fill(row, -1);
+        int narr[] = new int[N+2];
+        narr[0] = 1;
+        narr[N+1] = 1;
+        for(int i = 0; i<N; i++)
+            narr[i+1] = arr[i];
+        return func(1,N , narr , dp);
+        }
+    
+    public static int func(int i ,int j, int narr[] , int dp[][])    {
+        if(i > j) return 0;                                                                              //Memoization Approach
+        if(dp[i][j] != -1) return dp[i][j];
+        int mini = (int)Math.pow(-10,9);
+        for(int k = i; k<=j ; k++){
+            int steps =  narr[i-1] * narr[k] * narr[j+1] + func(i , k-1 , narr, dp) + 
+                func(k+1, j, narr, dp);
+            mini = Math.max(mini, steps);
+        }
+         return dp[i][j] = mini;
+    }
+}
+    
