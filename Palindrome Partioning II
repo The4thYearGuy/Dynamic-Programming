@@ -1,0 +1,56 @@
+class Solution {
+    public int minCut(String s) {
+        int dp[] = new int[s.length()+1];
+        int n = s.length();                                                                     //Tabulated Approach
+        Arrays.fill(dp, 0);
+        dp[n] = 0;
+        for(int j = n-1; j>=0;j--){
+            int mincost =(int) Math.pow(10,9);
+         for(int i = j; i<s.length(); i++){
+            if(isPalindrome(s, j, i)){
+                int cost = 1+ dp[i+1];
+                 mincost = Math.min(mincost, cost);
+            }
+        }
+         dp[j]=mincost;        
+    }
+       return dp[0] - 1;  
+}
+ public static boolean isPalindrome(String s , int start , int end){
+        while(start <= end){
+            if(s.charAt(start++)!= s.charAt(end--))
+               return false;
+        }
+               return true;
+    }
+}
+--------------------------------------------------------------------------------------------------------
+class Solution {
+    public int minCut(String s) {
+        int dp[] = new int[s.length()+1];
+        int n = s.length();                                                             //Memoized Approach
+        Arrays.fill(dp, -1);
+        return func(0,s,n,dp) -1;
+        
+    }
+    
+public static int func(int ind, String s, int n, int dp[] ) {
+        if(ind == n) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        int mincost =(int) Math.pow(10,9);
+        for(int i = ind; i<s.length(); i++){
+            if(isPalindrome(s, ind, i)){
+                int cost = 1+ func(i+1 , s,n,dp);
+                 mincost = Math.min(mincost, cost);
+            }
+        }
+        return dp[ind]=mincost;
+    }
+    public static boolean isPalindrome(String s , int start , int end){
+        while(start <= end){
+            if(s.charAt(start++)!= s.charAt(end--))
+               return false;
+        }
+               return true;
+    }
+}
